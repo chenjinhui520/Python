@@ -1,12 +1,10 @@
-import userdb as user
 import json
-import assets
-import gconf
+from reboot import gconf, assets, userdb as user
 
 from flask import Flask, request, render_template, redirect, session, flash
 from functools import wraps
-from models import Performs, Ssh
-from dbutils import MySQLconnection
+from reboot.models import Performs, Ssh
+from reboot.dbutils import MySQLconnection
 from functools import reduce
 
 app = Flask(__name__)
