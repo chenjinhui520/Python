@@ -1,0 +1,119 @@
+<form class="form-horizontal" action="/asset/update/">
+  <div class="form-group">
+    <label for="sn" class="col-md-3 control-label">资产编号:</label>
+      <div class="col-md-6">
+          <input type="text" class="form-control" name='sn' id="sn" value="{{ asset['sn'] }}" readonly>
+      </div>
+  </div>
+  <div class="form-group">
+    <label for="ip" class="col-md-3 control-label">IP地址:</label>
+      <div class="col-md-6">
+          <input type="text" class="form-control" name='ip' id="ip" value="{{ asset['ip'] }}">
+      </div>
+  </div>
+  <div class="form-group">
+    <label for="hostname" class="col-md-3 control-label">主机名:</label>
+    <div class="col-md-6">
+        <input type="text" class="form-control" name='hostname' id="hostname" value="{{ asset['hostname'] }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="idc_id" class="col-md-3 control-label">机房:</label>
+    <div class="col-md-6">
+        <!--<input type="text" class="form-control" name='idc_id' id="idc_id">-->
+      <select class="form-control" name='idc_id' id="idc_id">
+        {% for id,name in idcs %}
+          {% if selected == id %}
+            <option value="{{ id }}" selected>{{ name }}</option>
+          {% else %}
+            <option value="{{ id }}">{{ name }}</option>
+          {% endif %}
+        {% endfor %}
+      </select>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="purchase_date" class="col-md-3 control-label">采购日期:</label>
+    <div class="col-md-6">
+        <input type="text" class="form-control" name='purchase_date' id="purchase_date" value="{{ asset['purchase_date'] }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="warranty" class="col-md-3 control-label">保修时间(年):</label>
+    <div class="col-md-6">
+        <input type="text" class="form-control" name='warranty' id="warranty" value="{{ asset['warranty'] }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="vendor" class="col-md-3 control-label">供应商:</label>
+    <div class="col-md-6">
+        <input type="text" class="form-control" name='vendor' id="vendor" value="{{ asset['vendor'] }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="model" class="col-md-3 control-label">型号:</label>
+    <div class="col-md-6">
+        <input type="text" class="form-control" name='model' id="model" value="{{ asset['model'] }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="admin" class="col-md-3 control-label">使用人:</label>
+    <div class="col-md-6">
+        <input type="text" class="form-control" name='admin' id="admin" value="{{ asset['admin'] }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="business" class="col-md-3 control-label">业务:</label>
+    <div class="col-md-6">
+        <input type="text" class="form-control" name='business' id="business" value="{{ asset['business'] }}">
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="cpu" class="col-md-3 control-label">核数(个):</label>
+    <div class="col-md-6">
+      <input name='cpu' id="cpu" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="64" data-slider-step="2" data-slider-value="{{ asset['cpu'] }}"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="ram" class="col-md-3 control-label">内存(G):</label>
+    <div class="col-md-6">
+      <input name='ram' id="ram" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="256" data-slider-step="2" data-slider-value="{{ asset['ram'] }}"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="disk" class="col-md-3 control-label">磁盘大小(G):</label>
+    <div class="col-md-6">
+        <input name='disk' id="disk" data-slider-id='ex1Slider' type="text" data-slider-min="0" data-slider-max="1000" data-slider-step="2" data-slider-value="{{ asset['disk'] }}"/>
+    </div>
+  </div>
+  <div class="form-group">
+    <label for="os" class="col-md-3 control-label">操作系统:</label>
+    <div class="col-md-6">
+        <input type="text" class="form-control" name='os' id="os" value="{{ asset['os'] }}">
+    </div>
+  </div>
+</form>
+<script>
+  $('#cpu').slider({
+      formatter: function(value) {
+          return 'CPU核数: ' + value;
+      }
+  });
+  $('#ram').slider({
+      formatter: function(value) {
+          return '内存大小: ' + value;
+      }
+  });
+  $('#disk').slider({
+      formatter: function(value) {
+          return '磁盘大小: ' + value;
+      }
+  });
+
+    $("#purchase_date").datetimepicker({
+        language:'zh-CN',
+        format: 'yyyy-mm-dd',
+        autoclose: true,
+        minView: 2
+    });
+</script>

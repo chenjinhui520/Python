@@ -1,0 +1,239 @@
+{% extends "public/layout.html" %}
+{% block css %}
+<link href="/static/plugins/bootstrap-slider/slider.css" rel="stylesheet">
+<!--<link href="/static/plugins/bootstrap-slider/css/bootstrap-slider.min.css" rel="stylesheet">-->
+<link href="/static/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.css" rel="stylesheet">
+<link href="/static/plugins/bootstrap-datetimepicker/css/bootstrap-datetimepicker.min.css" rel="stylesheet">
+<link href="/static/plugins/datatables/dataTables.bootstrap.css" rel="stylesheet">
+<link href="/static/plugins/sweetalert-master/dist/sweetalert.css" rel="stylesheet">
+{% endblock %}
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="#">资产管理</a></li>
+        <li class="active">资产信息</li>
+    </ol>
+    <h1>
+        资产列表
+        <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#dialog" data-title="创建资产" data-text="创建" data-url="/asset/create/">创建资产</button>
+    </h1>
+{% endblock %}
+
+{% block body %}
+<div class="box box-primary  animated fadeInRight">
+    <div class="box-body">
+        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="asset_list_table" class="table table-bordered table-striped dataTable" role="grid"
+                           aria-describedby="example1_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="info">资产号</th>
+                                <th class="danger">IP地址</th>
+                                <th class="warning">主机名</th>
+                                <th class="info">机房</th>
+                                <th class="info">采购日期(保修时间)</th>
+                                <th class="info">供应商(型号)</th>
+                                <th class="info">使用人(业务)</th>
+                                <th class="info">CPU/内存/磁盘</th>
+                                <th class="info">操作系统</th>
+                                <th class="danger">操作</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for asset in asset_list %}
+                            <tr>
+                                <td>{{ asset['sn'] }}</td>
+                                <td>{{ asset['ip'] }}</td>
+                                <td>{{ asset['hostname'] }}</td>
+                                <td>{{ asset['idc_name'] }}</td>
+                                <td>{{ asset['purchase_date'] }}/({{ asset['warranty'] }})</td>
+                                <td>{{ asset['vendor'] }}/({{ asset['model'] }})</td>
+                                <td>{{ asset['admin'] }}/({{ asset['business'] }})</td>
+                                <td>{{ asset['cpu'] }}/{{ asset['ram'] }}/{{ asset['disk'] }}</td>
+                                <td>{{ asset['os'] }}</td>
+                                <td>
+                                    <button type="button" class="btn btn-success btn-xs" data-toggle="modal" data-target="#execution" data-title="执行命令" data-text="执行" data-url="/asset/command/?ip={{ asset['ip'] }}">执行</button>
+                                    <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#interval-dialog" data-title="查看监控" data-url="/asset/perform/?ip={{ asset['ip'] }}">监控</button>
+                                    <button type="button" class="btn btn-info btn-xs" data-toggle="modal" data-target="#dialog" data-title="更新资产" data-text="更新" data-url="/asset/update/?sn={{ asset['sn'] }}">更新</button>
+                                    <!--<a href="/asset/delete/?aid={{ asset['id'] }}" class="btn btn-danger btn-xs btn-delete">删除</a>-->
+                                    <!--a标签不管点确定还是取消都会被删除 -->
+                                    <button type="button" class="btn btn-danger btn-xs btn-delete"  data-url="/asset/delete/?aid={{ asset['id'] }}">删除</button>
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+
+
+
+<div class="modal fade" id="dialog" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">被填充的title内容</h4>
+      </div>
+        <div class="modal-body" style="max-height: 400px;overflow-y: auto;">
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary btn-from-submit" >被填充的button内容</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="interval-dialog" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">被填充的title内容</h4>
+      </div>
+        <div class="modal-body" style="max-height: 400px;overflow-y: auto;">
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal" id="clear-interval">关闭</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+<div class="modal fade" id="execution" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">被填充的title内容</h4>
+      </div>
+        <div class="modal-body" style="max-height: 400px;overflow-y: auto;">
+        </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+        <button type="button" class="btn btn-primary btn-from-submit" id="action">执行</button>
+      </div>
+    </div>
+  </div>
+</div>
+{% endblock %}
+
+{% block script %}
+<script src="/static/plugins/bootstrap-slider/js/bootstrap-slider.min.js" ></script>
+<script src="/static/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.js" ></script>
+<script src="/static/plugins/bootstrap-datetimepicker/js/bootstrap-datetimepicker.min.js" ></script>
+<script src="/static/plugins/bootstrap-datetimepicker/js/locales/bootstrap-datetimepicker.zh-CN.js" ></script>
+<script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
+<script src="/static/plugins/datatables/dataTables.bootstrap.min.js"></script>
+<script src="/static/plugins/sweetalert-master/dist/sweetalert.min.js" ></script>
+<script src="/static/js/Validform_v5.3.2_min.js" ></script>
+<script src="https://cdn.hcharts.cn/highcharts/highcharts.js"></script>
+<script>
+//$(document).ready(function () {
+//   $("#asset_list_table").DataTable()
+//});
+
+$('#dialog').on('show.bs.modal', function (event) {
+  var button = $(event.relatedTarget);
+  var title = button.data('title');
+  var text = button.data('text');
+  var url = button.data('url');
+  var that = $(this); // 点击的谁
+  that.find('.modal-title').text(title);
+  that.find('.btn-from-submit').text(text);
+  that.find('.modal-body').load(url);
+});
+
+$(".btn-from-submit").on('click', function () {
+    var post_url = $("#dialog form").attr("action");
+    var _from = $('#dialog').find('form');
+    perams = _from.serialize();
+    $.post(post_url, perams, function (res) {
+        if (res['is_ok']) {
+            swal({
+                    title: "success",
+                    text: res['msg'],
+                    type: 'success',
+                    confirmButtonText: "Good"
+                },function () {
+                    window.location.reload()
+                });
+        } else {
+            swal("出错啦！", res['error'],"error");
+        }
+    },'json')
+});
+
+    $('.btn-delete').on('click',function () {
+        var that = $(this); // 点击的谁
+        var _url = that.data('url');
+        swal({
+          title: "确定删除吗？",
+          text: "删除后无法恢复！",
+          type: "warning",
+          showCancelButton: true,
+          confirmButtonColor: "#DD6B55",
+          confirmButtonText: "确定！",
+          cancelButtonText: "取消！",
+          closeOnConfirm: true,
+          closeOnCancel: true
+        },
+        function(isConfirm){
+          if (isConfirm) {
+              window.location.replace(_url)
+          }
+        });
+    });
+
+    $('#interval-dialog').on('show.bs.modal', function (event) {
+      var button = $(event.relatedTarget);
+      var title = button.data('title');
+      var url = button.data('url');
+      var that = $(this); // 点击的谁
+      that.find('.modal-title').text(title);
+      that.find('.modal-body').load(url);
+      var res_time = setInterval(function () {
+          that.find('.modal-body').load(url);
+      },5000);
+
+      $('#clear-interval').click(function () {
+          clearInterval(res_time)
+      })
+    });
+
+
+    $('#execution').on('show.bs.modal',function (event) {
+        var button = $(event.relatedTarget);
+        var title = button.data('title');
+        var text = button.data('text');
+        var url = button.data('url');
+        var that = $(this);
+        that.find('.modal-title').text(title);
+        that.find('#action').text(text);
+        that.find('.modal-body').load(url)
+    });
+
+    $('#action').on('click', function () {
+        var _form = $('#execution').find('form');
+        $.post(_form.attr('action'),_form.serializeArray(),function (result) {
+            result = JSON.parse(result);
+            if(result['status']){
+                $("#info").html(result['info'])
+            }else{
+                swal('出錯啦','管理員密碼錯誤','error')
+            }
+        })
+    })
+</script>
+{% endblock %}

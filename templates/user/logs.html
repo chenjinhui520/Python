@@ -1,0 +1,52 @@
+{% extends "public/layout.html" %}
+
+{% block breadcrumb %}
+    <ol class="breadcrumb">
+        <li><a href="/"><i class="fa fa-dashboard"></i> 首页</a></li>
+        <li><a href="#">日志管理</a></li>
+        <li class="active">查看日志</li>
+    </ol>
+    <h1>
+        日志管理
+    </h1>
+{% endblock %}
+
+{% block body %}
+<a style="font-size: 20px;" href="/logs/?topn=5">TOP5</a>&nbsp;&nbsp;
+<a style="font-size: 20px;" href="/logs/?topn=15">TOP15</a>&nbsp;&nbsp;
+<a style="font-size: 20px;" href="/logs/?topn=20">TOP20</a><br>
+<div class="box box-primary  animated fadeInRight">
+    <div class="box-body">
+        <div id="example1_wrapper" class="dataTables_wrapper form-inline dt-bootstrap">
+            <div class="row">
+                <div class="col-sm-12">
+                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                           aria-describedby="example1_info">
+                        <thead>
+                            <tr role="row">
+                                <th class="success">Count</th>
+                                <th class="info">IP</th>
+                                <th class="danger">URL</th>
+                                <th class="warning">Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                                {% for log in logall_list %}
+                                <tr>
+                                    <td>{{ log['count'] }}</td>
+                                    <td>{{ log['ip'] }}</td>
+                                    <td>{{ log['url'] }}</td>
+                                    <td>{{ log['status'] }}</td>
+                                </tr>
+                                {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- /.box-body -->
+</div>
+{% endblock %}
+
+
