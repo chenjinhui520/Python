@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <title>{{ title }}</title>
+    </head>
+
+    <body>
+        <a href="/logs/?topn=5">TOP5</a>
+        <a href="/logs/?topn=15">TOP15</a>
+        <a href="/logs/?topn=20">TOP20</a>
+        <a href="/user/list/">用户列表</a>
+        <table border="1">
+            <thead>
+                <tr>
+                    <th>Count</th>
+                    <th>IP</th>
+                    <th>URL</th>
+                    <th>Status</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for log in logall_list %}
+                <tr>
+                    <td>{{ log['count'] }}</td>
+                    <td>{{ log['ip'] }}</td>
+                    <td>{{ log['url'] }}</td>
+                    <td>{{ log['status'] }}</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </body>
+</html>
