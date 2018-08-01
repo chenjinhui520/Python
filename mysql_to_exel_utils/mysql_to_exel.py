@@ -1,6 +1,6 @@
 import string
 from openpyxl import Workbook
-from exel_dbutils import execute_sql
+from mysql_to_exel_utils.exel_dbutils import execute_sql
 
 
 # 自动生成 SQL 字段列表长度工具
