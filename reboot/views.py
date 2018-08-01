@@ -67,17 +67,17 @@ def UserList():
 @app.route('/user/add/', methods=['POST', 'GET'])
 @login_required
 def UserAdd():
-    name = request.form.get('name')
-    age = request.form.get('age', '')
-    passwd = request.form.get('passwd', '')
-    job = request.form.get('job', '')
     if request.method == 'GET':
         return render_template('user/user_add.html')
     elif request.method == 'POST':
+        name = request.form.get('name')
+        age = request.form.get('age', '')
+        passwd = request.form.get('passwd', '')
+        job = request.form.get('job', '')
         _is_ok, error = user.vilidate_find(name, passwd, age, job)
+
         if _is_ok:
-            count = user.add_user(name, passwd, age, job)
-            print(count)
+            user.add_user(name, passwd, age, job)
             return json.dumps({'is_ok': _is_ok, 'error': error})
         else:
             return json.dumps({'is_ok': _is_ok, 'error': error})
