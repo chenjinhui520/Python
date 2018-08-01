@@ -4,13 +4,12 @@ from reboot import gconf
 
 class MySQLconnection(object):
     # 定义初始化属性函数
-    def __init__(self, host, port, user, passwd, db, database, charset='utf8'):
+    def __init__(self, host, port, user, passwd, db, charset='utf8'):
         self.__host = host
         self.__port = port
         self.__user = user
         self.__passwd = passwd
         self.__db = db
-        self.__database = database
         self.__charset = charset
         self.conn = None
         self.cur = None

@@ -24,20 +24,20 @@ def get_user():
 
 
 def vilidate_find(username, passwd, age, job):
-    if not username:
-        return True, u'用户名不能为空'
     sql = "select username from user where username=%s"
     args = (username,)
     count, rt_list = execute_sql(sql, args, fetch=True)
+    if not username:
+        return False, u'用户名不能为空'
     if count != 0:
-        return True, u'用户名已存在'
+        return False, u'用户名已存在'
     if not passwd:
-        return True, u'密码不能为空'
+        return False, u'密码不能为空'
     if not age:
-        return True, u'年龄不能为空'
+        return False, u'年龄不能为空'
     if not job:
-        return True, u'职务不能为空'
-    return False, ''
+        return False, u'职务不能为空'
+    return True, ''
 
 def vilidate_change_user_passwd(userid, username, original_passwd, new_passwd, new_repasswd):
     if not vilidate_login(username, original_passwd):
@@ -62,7 +62,7 @@ def add_user(username, passwd, age, job):
     sql = 'insert into user(username,password,job,age) values(%s,md5(%s),%s,%s)'
     args = (username, passwd, job, age)
     count, rt_list = execute_sql(sql, args=args, fetch=False)
-    return count != 0
+    return count
 
 
 def user_delete(uid):

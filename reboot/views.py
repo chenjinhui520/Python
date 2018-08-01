@@ -71,20 +71,16 @@ def UserAdd():
     age = request.form.get('age', '')
     passwd = request.form.get('passwd', '')
     job = request.form.get('job', '')
-    file = request.files.get('file')
-    if file:
-        file.save("/tmp/%s" % file.filename)
     if request.method == 'GET':
         return render_template('user/user_add.html')
     elif request.method == 'POST':
         _is_ok, error = user.vilidate_find(name, passwd, age, job)
         if _is_ok:
-            return json.dumps({"is_ok": _is_ok, "error": error})
+            count = user.add_user(name, passwd, age, job)
+            print(count)
+            return json.dumps({'is_ok': _is_ok, 'error': error})
         else:
-            if user.add_user(name, passwd, age, job):
-                return json.dumps({"is_ok": _is_ok, "error": error})
-            else:
-                return json.dumps({"is_ok": _is_ok, "error": error})
+            return json.dumps({'is_ok': _is_ok, 'error': error})
 
 
 @app.route('/user/delete/', methods=['GET'])
