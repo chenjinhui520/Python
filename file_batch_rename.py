@@ -1,6 +1,7 @@
 import os
 
 
+# os.sep 路径分隔符，自动识别系统平台（Linux / Windows）
 p = 'D:' + os.sep + 'get' + os.sep + 'SS' + os.sep + 'views'
 
 for parent, dirname, filenames in os.walk(p):
