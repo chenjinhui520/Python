@@ -86,7 +86,7 @@ def user_update(uid, age, job):
     sql = 'update user set job=%s,age=%s where id=%s;'
     args = (job, age, uid)
     count, rt_list = execute_sql(sql, args=args, fetch=False)
-    return count != 0
+    return count
 
 
 def get_accesslog(topn=10):
