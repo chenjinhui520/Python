@@ -67,7 +67,7 @@
         <h4 class="modal-title">修改密码</h4>
       </div>
         <div class="modal-body">
-            <form action="/user/change-passwd" method="post">
+            <form>
               <input type="hidden" class="form-control" id="userid">
               <div class="form-group">
                 <label for="username" class="control-label">用户名:</label>
@@ -174,6 +174,7 @@
       $('#username').val(username);
       $('#job').val(job);
       $('#age').val(age);
+      alert(username)
     });
 
     $("#submit-userinfo").click(function () {
