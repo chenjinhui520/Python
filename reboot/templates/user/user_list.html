@@ -21,8 +21,7 @@
                 {% for msg in get_flashed_messages() %}
                 <span>{{ msg }}</span>
                 {% endfor %}
-                欢迎：{{ session.user.username }}
-                    <table id="example1" class="table table-bordered table-striped dataTable" role="grid"
+                    <table id="dataTables" class="table table-bordered table-striped dataTable" role="grid"
                            aria-describedby="example1_info">
                         <thead>
                             <tr role="row">
@@ -132,6 +131,8 @@
 {% endblock %}
 
 {% block script %}
+<script type="text/javascript" src="/static/js/datatable.js"></script>
+
 <script type="text/javascript">
     $('#update_passwd').on('show.bs.modal', function (event) {
       var button = $(event.relatedTarget);
