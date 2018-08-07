@@ -69,8 +69,8 @@
             <form>
               <input type="hidden" class="form-control" id="userid">
               <div class="form-group">
-                <label for="username" class="control-label">用户名:</label>
-                <input type="text" class="form-control" id="username" readonly>
+                <label for="pusername" class="control-label">用户名:</label>
+                <input type="text" class="form-control" id="pusername" readonly>
               </div>
               <div class="form-group">
                 <label for="original-passwd" class="control-label">原始密码:</label>
@@ -142,7 +142,7 @@
       var new_passwd = button.data('new-passwd');
       var new_repasswd = button.data('new-repasswd');
       $('#uid').val(uesrid);
-      $('#username').val(username);
+      $('#pusername').val(username);
       $('#original-passwd').val(original_passwd);
       $('#new-passwd').val(new_passwd);
       $('#new-repasswd').val(new_repasswd);
@@ -151,7 +151,7 @@
     $('#submit-passwd').on('click',function () {
         var perams = {};
         perams['userid'] = $('#uid').val();
-        perams['username'] = $('#username').val();
+        perams['username'] = $('#pusername').val();
         perams['original-passwd'] = $('#original-passwd').val();
         perams['new-passwd'] = $('#new-passwd').val();
         perams['new-repasswd'] = $('#new-repasswd').val();
@@ -175,7 +175,6 @@
       $('#username').val(username);
       $('#job').val(job);
       $('#age').val(age);
-      alert(username)
     });
 
     $("#submit-userinfo").click(function () {

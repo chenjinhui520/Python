@@ -1,3 +1,4 @@
+
 $(document).ready(function () {
     $('#dataTables').DataTable({
         "bServerSide": false,
