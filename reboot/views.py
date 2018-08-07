@@ -62,7 +62,7 @@ def Login():
 @login_required
 def UserList():
     all_user = user.get_user()
-    return render_template('user/user_list.html', user_list=all_user)
+    return render_template('user/users.html', user_list=all_user)
 
 @app.route('/user/add/', methods=['POST', 'GET'])
 @login_required
@@ -93,16 +93,14 @@ def user_delete():
     else:
         return '用户删除失败.'
 
-@app.route('/user/update/', methods=['POST', 'GET'])
+@app.route('/user/update/', methods=['POST'])
 @login_required
 def user_update():
-    perams = request.args if request.method == 'GET'else request.form
+    perams = request.form
     uid = perams.get('uid', '')
     age = perams.get('age', '')
     job = perams.get('job', '')
     _user = user.get_user_by_id(uid=uid)[0]
-    if request.method == 'GET':
-        return render_template('user/user_update.html', _user=_user)
     if user.user_update(uid, age, job):
         return json.dumps({"is_ok": True, "msg": u"更新%s成功" % _user['username']})
     else:
