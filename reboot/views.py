@@ -128,6 +128,7 @@ def logout():
 
 
 @app.route('/asset/list/', methods=['GET', 'POST'])
+@login_required
 def asset_list():
     assets_list = assets.get_list()
     idcs = dict(assets.get_idc())
@@ -196,6 +197,7 @@ def asset_delete():
 
 
 @app.route('/performs/', methods=['GET', 'POST'])
+@login_required
 def performs():
     # msg = {u'ip': u'192.168.0.3', u'ram': 31.810766721044047,
     # u'cpu': 2.9000000000000057, u'time': u'2018-02-10 18:30:11'}
@@ -213,6 +215,7 @@ def performs():
 
 
 @app.route('/asset/perform/', methods=['GET', 'POST'])
+@login_required
 def asset_perform():
     asset_ip = request.args.get('ip')
     # cpu_list = [43934, 52503, 57177, 69658, 97031, 119931, 137133, 154175]
@@ -222,6 +225,7 @@ def asset_perform():
     return render_template('/asset/asset_perform.html', time_list=time_list, cpu_list=cpu_list, ram_list=ram_list)
 
 @app.route('/asset/command/', methods=['GET', 'POST'])
+@login_required
 def asset_command():
     perams = request.args if request.method == 'GET' else request.form
     asset_ip = perams.get('ip')
