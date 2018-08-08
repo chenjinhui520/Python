@@ -2,11 +2,10 @@
 <html>
 <head>
   <meta charset="utf-8">
-  <meta http-equiv="X-UA-Compatible" content="IE=edge">
-  <title>学习平台</title>
+  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<title>学习平台</title>
   <!--CSS加载开始-->
   <!-- Tell the browser to be responsive to screen width -->
-  <meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
   <!-- Bootstrap 3.3.6 -->
   <link rel="stylesheet" href="/static/bootstrap/css/bootstrap.min.css">
   <!-- Font Awesome -->
@@ -20,17 +19,16 @@
   <link rel="stylesheet" href="/static/dist/css/skins/_all-skins.min.css">
   <!-- Pace style -->
   <link rel="stylesheet" href="/static/plugins/pace/pace.min.css">
-  <!--CSS加载结束-->
-    <link href="/static/dist/css/animate.css" rel="stylesheet">
+  <link href="/static/dist/css/animate.css" rel="stylesheet">
   <link rel="shortcut icon" href="/static/img/github.png">
   <link rel="bookmark" href="/static/img/github.png" type="image/x-icon">
+  <!--CSS加载结束-->
 
   <!--CSS模版开始-->
-
-<!-- DataTables -->
-<link rel="stylesheet" href="/static/plugins/datatables/dataTables.bootstrap.css">
-{% block css %}
-{% endblock %}
+  <!-- DataTables -->
+  <link rel="stylesheet" href="/static/plugins/datatables/dataTables.bootstrap.css">
+  {% block css %}
+  {% endblock %}
   <!--CSS模版结束-->
 </head>
 <!--body体开始-->
@@ -43,7 +41,7 @@
     <!-- Logo -->
     <a class="logo">
       <span class="logo-mini"><b>R</b>b+</span>
-      <span class="logo-lg"><b>Reboot</b>学习平台</span>
+      <span class="logo-lg"><b>Reboot</b> 学习平台</span>
     </a>
     <!-- 标题导航栏开始 -->
     <nav class="navbar navbar-static-top">
@@ -146,8 +144,6 @@
 <script src="/static/dist/js/demo.js"></script>
 
 <!-- js加载开始 -->
-<script type="text/javascript">
-</script>
 <!-- js加载结束-->
 
 <!--JS模版开始-->
@@ -155,11 +151,7 @@
 <!-- DataTables -->
 <script src="/static/plugins/datatables/jquery.dataTables.min.js"></script>
 <script src="/static/plugins/datatables/dataTables.bootstrap.min.js"></script>
-<script>
-//  $(function () {
-//    $("#example1").DataTable();
-//  });
-</script>
+<script src="/static/js/datatable.js"></script>
 
 <!--JS模版结束-->
 {% block script %}
