@@ -3,10 +3,11 @@ $('#submit_button').click(function () {
     var age = $('#age').val();
     var passwd = $('#passwd').val();
     var job = $('#Job').val();
+    var role_name = $('#user_role').val();
 
     var type = 'POST';
     var url = '/user/add/';
-    var data = {name: name, age: age, passwd: passwd, job: job};
+    var data = {name: name, age: age, passwd: passwd, job: job, role_name: role_name};
 
     $.ajax({
         type: type,

@@ -6,7 +6,7 @@ from functools import wraps
 def login_required(func):
     @wraps(func)
     def inner(*args, **kwargs):
-        if not session:
+        if not session.get('user', None):
             return redirect('/login/')
         ret = func(*args, **kwargs)
         return ret

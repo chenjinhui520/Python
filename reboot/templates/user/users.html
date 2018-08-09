@@ -27,9 +27,9 @@
                             <tr role="row">
                                 <th class="success">用户ID</th>
                                 <th class="info">用户名</th>
-                                <th class="danger">密码</th>
                                 <th class="warning">年龄</th>
                                 <th class="info">职务</th>
+                                <th class="success">角色</th>
                                 <th class="danger">操作</th>
                             </tr>
                         </thead>
@@ -38,12 +38,14 @@
                             <tr>
                                 <td>{{ user['id'] }}</td>
                                 <td>{{ user['username'] }}</td>
-                                <!--<td>{{ user.password }}</td>-->
-                                <td>******</td>
                                 <td>{{ user.get('age') }}</td>
                                 <td>{{ user['job'] }}</td>
+                                <td>{{ user['role_name'] }}</td>
                                 <td>
-                                    <a class="btn btn-primary btn-xs"  data-toggle="modal" data-target="#update_userinfo" data-userid="{{ user['id'] }}" data-username="{{ user['username'] }}" data-age="{{ user['age'] }}" data-job="{{ user['job']}}">更新</a>
+                                    <a class="btn btn-primary btn-xs"  data-toggle="modal" data-target="#update_userinfo"
+                                       data-userid="{{ user['id'] }}" data-username="{{ user['username'] }}"
+                                       data-age="{{ user['age'] }}" data-job="{{ user['job']}}" data-role="{{ user['role_name'] }}">更新
+                                    </a>
                                      <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#update_passwd" data-userid="{{ user['id'] }}" data-username="{{ user['username'] }}">修改密码</button>
                                     <a href="/user/delete/?username={{ user['username'] }}&uid={{ user['id'] }}" class="btn btn-danger btn-xs" onclick="return confirm('确定删除吗?')">删除</a>
                                 </td>

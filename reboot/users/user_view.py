@@ -11,6 +11,7 @@ def UserList():
     all_user = user.get_user()
     return render_template('user/users.html', user_list=all_user)
 
+
 @users_blue.route('/user/add/', methods=['POST', 'GET'])
 @login_required
 def UserAdd():

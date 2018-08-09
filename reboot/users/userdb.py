@@ -14,8 +14,8 @@ def vilidate_login(username, password):
 
 # 获取所有用户信息
 def get_user():
-    columns = ("id", "username", "password", "job", "age")
-    sql = 'select * from user'
+    columns = ("id", "username", "password", "job", "age", "role_name")
+    sql = 'select id,username,password,job,age,role_name from user,role where user.role = role.role_id'
     user_list = []
     count, rt_list = execute_sql(sql, fetch=True)
     for user in rt_list:
