@@ -22,10 +22,12 @@ def UserAdd():
         age = request.form.get('age', '')
         passwd = request.form.get('passwd', '')
         job = request.form.get('job', '')
-        _is_ok, error = user.vilidate_find(name, passwd, age, job)
+        role_name = request.form.get('role_name', '')
+        role_id = user.get_role_by_role_name(role_name)
+        _is_ok, error = user.vilidate_find(name, passwd, age, job, role_name)
 
         if _is_ok:
-            user.add_user(name, passwd, age, job)
+            user.add_user(name, passwd, age, job, role_id)
             return json.dumps({'is_ok': _is_ok, 'error': error})
         else:
             return json.dumps({'is_ok': _is_ok, 'error': error})
@@ -48,8 +50,10 @@ def user_update():
     uid = perams.get('uid', '')
     age = perams.get('age', '')
     job = perams.get('job', '')
+    role_name = perams.get('role_name', '')
+    role = user.get_role_by_role_name(role_name)[0][0]
     _user = user.get_user_by_id(uid=uid)[0]
-    if user.user_update(uid, age, job):
+    if user.user_update(uid, age, job, role):
         return json.dumps({"is_ok": True, "msg": u"更新%s成功" % _user['username']})
     else:
         return json.dumps({"is_ok": False, "msg": u"更新%s失败" % _user['username']})

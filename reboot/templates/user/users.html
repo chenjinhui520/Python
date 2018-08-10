@@ -1,5 +1,9 @@
 {% extends "public/layout.html" %}
 
+{% block css %}
+    <link rel="stylesheet" href="/static/css/select.css">
+{% endblock %}
+
 {% block breadcrumb %}
     <ol class="breadcrumb">
         <li><a href="/"><i class="fa fa-dashboard"></i> 首页</a></li>
@@ -42,12 +46,22 @@
                                 <td>{{ user['job'] }}</td>
                                 <td>{{ user['role_name'] }}</td>
                                 <td>
+                                    {% if session.user.role == '0' %}
                                     <a class="btn btn-primary btn-xs"  data-toggle="modal" data-target="#update_userinfo"
                                        data-userid="{{ user['id'] }}" data-username="{{ user['username'] }}"
-                                       data-age="{{ user['age'] }}" data-job="{{ user['job']}}" data-role="{{ user['role_name'] }}">更新
+                                       data-age="{{ user['age'] }}" data-job="{{ user['job']}}"
+                                       data-role="{{ user['role_name'] }}">更新
                                     </a>
-                                     <button type="button" class="btn btn-primary btn-xs" data-toggle="modal" data-target="#update_passwd" data-userid="{{ user['id'] }}" data-username="{{ user['username'] }}">修改密码</button>
-                                    <a href="/user/delete/?username={{ user['username'] }}&uid={{ user['id'] }}" class="btn btn-danger btn-xs" onclick="return confirm('确定删除吗?')">删除</a>
+                                    {% endif %}
+                                     <button type="button" class="btn btn-primary btn-xs" data-toggle="modal"
+                                             data-target="#update_passwd" data-userid="{{ user['id'] }}"
+                                             data-username="{{ user['username'] }}">修改密码
+                                     </button>
+                                    {% if session.user.role == '0' %}
+                                    <a href="/user/delete/?username={{ user['username'] }}&uid={{ user['id'] }}"
+                                       class="btn btn-danger btn-xs" onclick="return confirm('确定删除吗?')">删除
+                                    </a>
+                                    {% endif %}
                                 </td>
                             </tr>
                             {% endfor %}
@@ -119,6 +133,15 @@
                 <label for="job" class="control-label">职务:</label>
                 <input type="text" class="form-control" id="job" >
               </div>
+                <div class="form-group">
+                    <label for="role" class="control-label">角色:</label>
+                    <div>
+                    <select id="role" class="col-sm-8">
+                        <option value="common">common</option>
+                        <option value="admin">admin</option>
+                    </select>
+                    </div>
+                </div>
             </form>
         </div>
       <div class="modal-footer">
@@ -170,10 +193,12 @@
       var username = button.data('username');
       var job = button.data('job');
       var age = button.data('age');
+      var role_name = button.data('role_name');
       $('#uid').val(uesrid);
       $('#username').val(username);
       $('#job').val(job);
       $('#age').val(age);
+      $('#role').val(role_name);
     });
 
     $("#submit-userinfo").click(function () {
@@ -182,6 +207,7 @@
         data['username'] = $("#username").val();
         data['age'] = $("#age").val();
         data['job'] = $("#job").val();
+        data['role_name'] = $('#role').val();
         $.post('/user/update/', data, function (data) {
             if(data['is_ok']){
                 alert('用户更新成功!');

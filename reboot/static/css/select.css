@@ -1,4 +1,9 @@
 #user_role {
     padding: 6px 12px;
-    width: 900px;
+    width: 910px;
+}
+
+#role {
+    padding: 6px 12px;
+    width: 570px;
 }

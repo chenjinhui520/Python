@@ -37,11 +37,12 @@ def logs():
 def Login():
     username = request.form.get('username')
     password = request.form.get('password')
+    role = user.get_role_from_username(username)
     if request.method == 'GET':
         return render_template('login.html')
     if request.method == 'POST':
         if user.vilidate_login(username, password):
-            session['user'] = {'username': username}
+            session['user'] = {'username': username, 'role': role[0][0]}
             # 跳转到首页
             return redirect('/user/list/')
         else:

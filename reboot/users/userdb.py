@@ -23,7 +23,7 @@ def get_user():
     return user_list
 
 
-def vilidate_find(username, passwd, age, job):
+def vilidate_find(username, passwd, age, job, role_name):
     sql = "select username from user where username=%s"
     args = (username,)
     count, rt_list = execute_sql(sql, args, fetch=True)
@@ -37,6 +37,8 @@ def vilidate_find(username, passwd, age, job):
         return False, u'年龄不能为空'
     if not job:
         return False, u'职务不能为空'
+    if not role_name:
+        return False, u'必须选择角色'
     return True, ''
 
 def vilidate_change_user_passwd(userid, username, original_passwd, new_passwd, new_repasswd):
@@ -58,9 +60,9 @@ def change_user_passwd(userid, user_passwd):
 
 
 # 添加用户
-def add_user(username, passwd, age, job):
-    sql = 'insert into user(username,password,job,age) values(%s,md5(%s),%s,%s)'
-    args = (username, passwd, job, age)
+def add_user(username, passwd, age, job, role_id):
+    sql = 'insert into user(username,password,job,age,role) values(%s,md5(%s),%s,%s,%s)'
+    args = (username, passwd, job, age, role_id)
     count, rt_list = execute_sql(sql, args=args, fetch=False)
     return count
 
@@ -81,10 +83,21 @@ def get_user_by_id(uid):
         user_list.append(dict(zip(columns, user)))
     return user_list
 
+def get_role_from_username(username):
+    sql = 'select role from user where username=%s'
+    args = (username, )
+    count, rt_list = execute_sql(sql, args=args, fetch=True)
+    return rt_list
 
-def user_update(uid, age, job):
-    sql = 'update user set job=%s,age=%s where id=%s;'
-    args = (job, age, uid)
+def get_role_by_role_name(role_name):
+    sql = 'select role_id from role where role_name=%s'
+    args = (role_name, )
+    count, rt_list = execute_sql(sql, args=args, fetch=True)
+    return rt_list
+
+def user_update(uid, age, job, role):
+    sql = 'update user set job=%s,age=%s,role=%s where id=%s;'
+    args = (job, age, role, uid)
     count, rt_list = execute_sql(sql, args=args, fetch=False)
     return count
 
