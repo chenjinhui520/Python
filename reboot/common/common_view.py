@@ -1,23 +1,24 @@
 import json
-from reboot.conf import gconf
+import configparser
 from reboot.users import userdb as user
 
 from flask import request, render_template, redirect, session, Blueprint
 from reboot.common.models import Performs
-from reboot.common.dbutils import MySQLconnection
+from reboot.common.dbutils import MySQLHelper
 from functools import reduce
 from reboot.common.session_auth import login_required
 
+db = MySQLHelper()
 common_blue = Blueprint('common_view', __name__)
 
 @common_blue.route('/')
 @login_required
 def log_status():
     sql = 'select distinct status from accesslog'
-    count, status_list = MySQLconnection.execute_sql1(sql)
+    count, status_list = db.execute(sql)
     status_list = [i[0] for i in status_list]
-    status_dict = {i: MySQLconnection.execute_sql1('select count(*) from accesslog where status=%s',
-                                                   (i,))[1][0][0] for i in status_list}
+    status_dict = {i: db.fetch_all('select count(*) from accesslog where status=%s',
+                                   (i,))[1][0][0] for i in status_list}
     total = reduce(lambda x, y: x+y, status_dict.values())
     data = [['%s' % k, round(v/total, 3)*100] for k, v in status_dict.items()]
     return render_template('/public/index_body.html', data=data)
@@ -58,7 +59,9 @@ def performs():
 
     app_key = request.headers.get('app_key', '')
     app_secret = request.headers.get('app_secret', '')
-    if app_key != gconf.app_key or app_secret != gconf.app_secret:
+    conf = configparser.ConfigParser()
+    conf.read('conf/reboot.conf')
+    if app_key != conf.get('session', 'app_key') or app_secret != conf.get('session', 'app_secret'):
         return json.dumps({'code': 400, 'text': '认证失败'})
 
     msg = request.get_json()

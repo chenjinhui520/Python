@@ -1,11 +1,13 @@
-from reboot.common.dbutils import execute_sql
+from reboot.common.dbutils import MySQLHelper
 
+
+db = MySQLHelper()
 
 # 登陆时验证用户名和密码
 def vilidate_login(username, password):
     sql = 'select * from user where username=%s and password=md5(%s)'
     args = (username, password)
-    count, rt_list = execute_sql(sql, args, fetch=True)
+    count, rt_list = db.fetch_one(sql, args)
     if count == 1:
         return True
     else:
@@ -17,7 +19,7 @@ def get_user():
     columns = ("id", "username", "password", "job", "age", "role_name")
     sql = 'select id,username,password,job,age,role_name from user,role where user.role = role.role_id'
     user_list = []
-    count, rt_list = execute_sql(sql, fetch=True)
+    count, rt_list = db.fetch_all(sql)
     for user in rt_list:
         user_list.append(dict(zip(columns, user)))
     return user_list
@@ -26,7 +28,7 @@ def get_user():
 def vilidate_find(username, passwd, age, job, role_name):
     sql = "select username from user where username=%s"
     args = (username,)
-    count, rt_list = execute_sql(sql, args, fetch=True)
+    count, rt_list = db.fetch_one(sql, args)
     if not username:
         return False, u'用户名不能为空'
     if count != 0:
@@ -55,7 +57,7 @@ def vilidate_change_user_passwd(userid, username, original_passwd, new_passwd, n
 def change_user_passwd(userid, user_passwd):
     sql = 'update user set password=md5(%s) where id=%s'
     args = (user_passwd, userid)
-    count, rt_list = execute_sql(sql, args=args, fetch=False)
+    count, rt_list = db.execute(sql, args=args)
     return count != 0
 
 
@@ -63,13 +65,13 @@ def change_user_passwd(userid, user_passwd):
 def add_user(username, passwd, age, job, role_id):
     sql = 'insert into user(username,password,job,age,role) values(%s,md5(%s),%s,%s,%s)'
     args = (username, passwd, job, age, role_id)
-    count, rt_list = execute_sql(sql, args=args, fetch=False)
+    count, rt_list = db.execute(sql, args=args)
     return count
 
 
 def user_delete(uid):
     sql = 'delete from user where id=%s' % uid
-    count, rt_list = execute_sql(sql, fetch=False)
+    count, rt_list = db.execute(sql)
     return count != 0
 
 
@@ -78,7 +80,7 @@ def get_user_by_id(uid):
     sql = 'select * from user where id=%s'
     args = (uid,)
     user_list = []
-    count, rt_list = execute_sql(sql, args=args, fetch=True)
+    count, rt_list = db.fetch_one(sql, args=args)
     for user in rt_list:
         user_list.append(dict(zip(columns, user)))
     return user_list
@@ -86,19 +88,19 @@ def get_user_by_id(uid):
 def get_role_from_username(username):
     sql = 'select role from user where username=%s'
     args = (username, )
-    count, rt_list = execute_sql(sql, args=args, fetch=True)
+    count, rt_list = db.fetch_one(sql, args=args)
     return rt_list
 
 def get_role_by_role_name(role_name):
     sql = 'select role_id from role where role_name=%s'
     args = (role_name, )
-    count, rt_list = execute_sql(sql, args=args, fetch=True)
+    count, rt_list = db.fetch_one(sql, args=args)
     return rt_list
 
 def user_update(uid, age, job, role):
     sql = 'update user set job=%s,age=%s,role=%s where id=%s;'
     args = (job, age, role, uid)
-    count, rt_list = execute_sql(sql, args=args, fetch=False)
+    count, rt_list = db.execute(sql, args=args)
     return count
 
 
@@ -107,7 +109,7 @@ def get_accesslog(topn=10):
     sql = 'select * from accesslog limit %s'
     args = (topn,)
     accesslog_list = []
-    count, rt_list = execute_sql(sql, args=args, fetch=True)
+    count, rt_list = db.fetch_all(sql, args=args)
     for item in rt_list:
         accesslog_list.append(dict(zip(columns, item)))
     return accesslog_list

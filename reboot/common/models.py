@@ -1,4 +1,4 @@
-from reboot.common.dbutils import MySQLconnection
+from reboot.common.dbutils import MySQLHelper
 import time
 import paramiko
 
@@ -6,21 +6,21 @@ class Performs(object):
 
     # msg = {u'ip': u'192.168.0.3', u'ram': 31.810766721044047,
     # u'cpu': 2.9000000000000057, u'time': u'2018-02-10 18:30:11'}
+    def __init__(self):
+        self.db = MySQLHelper()
 
-    @classmethod
-    def add(cls, msg):
+    def add(self, msg):
         _ip = msg.get('ip')
         _cpu = msg.get('cpu')
         _ram = msg.get('ram')
         _time = msg.get('time')
         sql = 'insert into performs(ip,cpu,ram,time) values(%s,%s,%s,%s)'
-        MySQLconnection.execute_sql1(sql, args=(_ip, _cpu, _ram, _time), fetch=False)
+        self.db.execute(sql, args=(_ip, _cpu, _ram, _time))
 
-    @classmethod
-    def get_list(cls, ip):
+    def get_list(self, ip):
         _sql = 'select cpu,ram,time from performs where ip=%s and time >= %s order by time asc'
         _args = (ip, time.strftime('%Y-%m-%d %H:%M:%S', time.localtime(time.time() - 3600)))
-        _count, _rt_list = MySQLconnection.execute_sql1(_sql, args=_args, fetch=True)
+        _count, _rt_list = self.db.fetch_all(_sql, args=_args)
         datetime_list = []
         cpu_list = []
         ram_list = []

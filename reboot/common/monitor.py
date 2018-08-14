@@ -1,21 +1,23 @@
-from reboot.common.dbutils import MySQLconnection
+from reboot.common.dbutils import MySQLHelper
 
 
 CNT = 1
 CPU_PERCENT = 0.2
 RAM_PERCENT = 50
 
+db = MySQLHelper()
+
 def has_alarm(ip):
     # CPU&RAM 大于80%
     _sql = 'select cpu,ram from performs where ip=%s order by time desc limit %s'
     _args = (ip, CNT)
-    count, rt_list = MySQLconnection.execute_sql1(sql=_sql, args=_args, fetch=True)
+    count, rt_list = db.fetch_all(sql=_sql, args=_args)
     cpu = False
     ram = False
     for _cpu, _ram in rt_list:
         if _cpu > CPU_PERCENT:
             cpu = True
-        if _ram >RAM_PERCENT:
+        if _ram > RAM_PERCENT:
             ram = True
     return cpu, ram
 

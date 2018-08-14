@@ -1,5 +1,7 @@
-from reboot.common.dbutils import execute_sql
+from reboot.common.dbutils import MySQLHelper
 
+
+db = MySQLHelper()
 
 '''
 返回所有资产信息
@@ -10,13 +12,13 @@ def get_list():
               'vendor,model,admin,business,cpu,ram,disk,os,status')
     columns = column.split(',')
     sql = 'select * from assets where status = 0'
-    count, rt_list = execute_sql(sql, fetch=True)
+    count, rt_list = db.fetch_all(sql)
     asset_list = [dict(zip(columns, asset)) for asset in rt_list]
     return asset_list
 
 def get_idc():
     sql = 'select id,name from idcs where status = 0'
-    count, rt_list = execute_sql(sql, fetch=True)
+    count, rt_list = db.fetch_all(sql)
     return rt_list
 
 def get_asset_by_sn(sn):
@@ -25,7 +27,7 @@ def get_asset_by_sn(sn):
     columns = column.split(',')
     sql = 'select * from assets where sn=%s'
     args = (sn,)
-    count, rt_list = execute_sql(sql, args)
+    count, rt_list = db.fetch_all(sql, args)
     asset_list = [dict(zip(columns, asset)) for asset in rt_list]
     if count != 0:
         return asset_list[0]
@@ -72,7 +74,7 @@ def create_asset(asset_dict):
              'vendor', 'model', 'admin', 'business', 'cpu', 'ram', 'disk', 'os']
     for i in lists:
         args_list.append(asset_dict.get('_'+i))
-    count, rt_list = execute_sql(sql, args=args_list, fetch=False)
+    count, rt_list = db.execute(sql, args=args_list)
     return count != 0
 
 
@@ -101,7 +103,7 @@ def update_asset(sn, asset_dict):
     for i in lists:
         args_list.append(asset_dict.get('_'+i))
     args_list.append(sn)
-    count, rt_list = execute_sql(sql, args=args_list, fetch=False)
+    count, rt_list = db.execute(sql, args=args_list)
     return count != 0
 
 
@@ -112,6 +114,6 @@ def update_asset(sn, asset_dict):
 def delete_asset(aid):
     sql = 'update assets set status=1 where id=%s'
     args = (aid,)
-    count, rt_list = execute_sql(sql, args=args, fetch=False)
+    count, rt_list = db.execute(sql, args=args)
     return count != 0
 
