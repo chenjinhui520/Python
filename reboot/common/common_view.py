@@ -1,6 +1,6 @@
 import json
 import configparser
-from reboot.users import userdb as user
+from reboot.users import users as user
 
 from flask import request, render_template, redirect, session, Blueprint
 from reboot.common.models import Performs
@@ -15,8 +15,9 @@ common_blue = Blueprint('common_view', __name__)
 @login_required
 def log_status():
     sql = 'select distinct status from accesslog'
-    count, status_list = db.execute(sql)
+    count, status_list = db.fetch_all(sql)
     status_list = [i[0] for i in status_list]
+    print(status_list)
     status_dict = {i: db.fetch_all('select count(*) from accesslog where status=%s',
                                    (i,))[1][0][0] for i in status_list}
     total = reduce(lambda x, y: x+y, status_dict.values())

@@ -33,7 +33,6 @@ class MySQLHelper(object):
         try:
             count = self.cur.execute(sql, args)
             self.commit()
-            self.close()
         except Exception as e:
             print(e)
         return count
@@ -44,7 +43,6 @@ class MySQLHelper(object):
         try:
             count = self.cur.executemany(sql, args)
             self.commit()
-            self.close()
         except Exception as e:
             print(e)
         return count
@@ -55,7 +53,6 @@ class MySQLHelper(object):
         count = self.execute(sql, args)
         try:
             result = self.cur.fetchone()
-            self.close()
         except Exception as e:
             print(e)
         return count, result
@@ -66,7 +63,6 @@ class MySQLHelper(object):
         count = self.execute(sql, args)
         try:
             result = self.cur.fetchmany(number)
-            self.close()
         except Exception as e:
             print(e)
         return count, result
@@ -77,7 +73,6 @@ class MySQLHelper(object):
         count = self.execute(sql, args)
         try:
             result = self.cur.fetchall()
-            self.close()
         except Exception as e:
             print(e)
         return count, result

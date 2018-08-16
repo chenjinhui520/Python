@@ -1,6 +1,6 @@
 import json
 from reboot.assets import assets
-from reboot.users import userdb as user
+from reboot.users import users as user
 
 from flask import request, render_template, redirect, session, Blueprint
 from reboot.common.models import Performs, Ssh

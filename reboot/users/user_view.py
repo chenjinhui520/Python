@@ -1,5 +1,5 @@
 import json
-from reboot.users import userdb as user
+from reboot.users import users as user
 from reboot.common.session_auth import login_required
 from flask import request, render_template, redirect, flash, Blueprint
 
