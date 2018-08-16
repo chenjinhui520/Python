@@ -5,14 +5,14 @@ import configparser
 class MySQLHelper(object):
     # 定义初始化属性函数
     def __init__(self):
-        self.__conf = configparser.ConfigParser()
-        self.__conf.read('reboot.conf')
-        self.__host = self.__conf.get('mysql', 'MYSQL_HOST')
-        self.__port = self.__conf.getint('mysql', 'MYSQL_PORT')
-        self.__user = self.__conf.get('mysql', 'MYSQL_USER')
-        self.__passwd = self.__conf.get('mysql', 'MYSQL_PASSWD')
-        self.__db = self.__conf.get('mysql', 'MYSQL_DB')
-        self.__charset = self.__conf.get('mysql', 'MYSQL_CHARSET')
+        self.conf = configparser.ConfigParser()
+        self.conf.read('D:\\Flask\\reboot\conf\\reboot.conf')
+        self.__host = self.conf.get('mysql', 'MYSQL_HOST')
+        self.__port = self.conf.getint('mysql', 'MYSQL_PORT')
+        self.__user = self.conf.get('mysql', 'MYSQL_USER')
+        self.__passwd = self.conf.get('mysql', 'MYSQL_PASSWD')
+        self.__db = self.conf.get('mysql', 'MYSQL_DB')
+        self.__charset = self.conf.get('mysql', 'MYSQL_CHARSET')
         self.conn = None
         self.cur = None
         self.__content()

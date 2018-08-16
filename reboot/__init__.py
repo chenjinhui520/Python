@@ -8,7 +8,7 @@ from reboot.common import common_view
 
 app = Flask(__name__)
 conf = configparser.ConfigParser()
-conf.read('conf/reboot.conf')
+conf.read('D:\\Flask\\reboot\conf\\reboot.conf')
 app.config['SECRET_KEY'] = conf.get('session', 'app_secret')
 
 app.register_blueprint(user_view.users_blue)
