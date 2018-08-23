@@ -4,7 +4,7 @@
     <!-- 用户面板的侧边栏 -->
     <!-- 搜索表单 -->
     <!-- 侧边栏菜单-->
-    <ul class="sidebar-menu">
+    <ul class="sidebar-menu menuPage">
       <!--用户管理导航-->
       <li class="treeview">
         <a href="/">
@@ -37,3 +37,14 @@
     </ul>
   </section>
 </aside>
+
+<script>
+    var path = location.pathname;
+    var path = path.replace(/\/$/i, '');
+    console.log(path);
+    var elemnt = $('[href="'+path+'"]');
+    $('#menuPage').find('.nav-item').removeClass('active');
+    elemnt.parent('li').addClass('active');
+    elemnt.parents('.nav-item').addClass('active open')
+</script>
+

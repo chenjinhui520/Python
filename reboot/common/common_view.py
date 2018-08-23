@@ -17,7 +17,6 @@ def log_status():
     sql = 'select distinct status from accesslog'
     count, status_list = db.fetch_all(sql)
     status_list = [i[0] for i in status_list]
-    print(status_list)
     status_dict = {i: db.fetch_all('select count(*) from accesslog where status=%s',
                                    (i,))[1][0][0] for i in status_list}
     total = reduce(lambda x, y: x+y, status_dict.values())
