@@ -1,0 +1,19 @@
+HTTP/1.1 302 Moved Temporarily
+Server: squid/3.5.24
+Date: Tue, 21 Aug 2018 07:38:14 GMT
+Content-Type: text/html
+Transfer-Encoding: chunked
+Connection: keep-alive
+Location: http://www.qq.com/
+Expires: Tue, 21 Aug 2018 07:39:14 GMT
+Cache-Control: max-age=60
+Vary: Accept-Encoding
+X-Cache: HIT from shenzhen.qq.com
+
+<html>
+<head><title>302 Found</title></head>
+<body bgcolor="white">
+<center><h1>302 Found</h1></center>
+<hr><center>nginx/1.6.0</center>
+</body>
+</html>
