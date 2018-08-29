@@ -19,7 +19,7 @@ class SendMail(object):
         self.subject = self.conf.get('mail', 'subject')
 
     def send(self, Image, Attachment):
-        # 构造一个 MIMEMultipart 对象
+        # 构造一个 MIMEMultipart 对象，邮件中有图片内容时，这样写
         msg = MIMEMultipart('related')
 
         # 构造主题、发件人、收件人
@@ -27,6 +27,7 @@ class SendMail(object):
         msg['From'] = self.sender
         msg['To'] = self.recipient
 
+        # 邮件中有图片内容时，这样写
         msgAlternative = MIMEMultipart('alternative')
         msg.attach(msgAlternative)
 
@@ -38,14 +39,14 @@ class SendMail(object):
         image.add_header('Content-ID', '<myimg>')
         msg.attach(image)
 
-        # 构造 HTML
+        # 构造 HTML，通过图片 ID 引用图片内容
         html_msg = """
           <p>Python 发送邮件测试......</p>
           <p><a href="http://www.qq.com/">腾讯</a></p>
           <h1>测试图片</h1>
           <p><img src="cid:myimg"></p>
         """
-
+        # 邮件中有图片内容时，这样写
         msgAlternative.attach(MIMEText(html_msg, 'html', 'utf-8'))
 
         # 构造附件
