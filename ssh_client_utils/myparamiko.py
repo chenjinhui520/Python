@@ -2,12 +2,12 @@ import paramiko
 import configparser
 
 
-class MyParamiko:
+class MyParamiko(object):
     def __init__(self, file):
         self.client = paramiko.SSHClient()
         self.client.set_missing_host_key_policy(paramiko.AutoAddPolicy)
         self.conf = configparser.ConfigParser()
-        self.conf.read(file)
+        self.conf.read(file, encoding='utf-8')
         self.transport = paramiko.Transport(self.conf.get('ssh', 'hostname'), self.conf.getint('ssh', 'port'))
         self.transport.connect(username=self.conf.get('ssh', 'username'), password=self.conf.get('ssh', 'password'))
         self.sftp = paramiko.SFTPClient.from_transport(self.transport)

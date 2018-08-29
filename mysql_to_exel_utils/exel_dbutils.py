@@ -8,7 +8,7 @@ def execute_sql(sql):
     fields = ()          # 格式为元组嵌套元组，一列属性为一个元组
     result = ()          # 格式为元组嵌套元组，一行数据为一个元组
     conf = configparser.ConfigParser()
-    conf.read('ssh.conf')
+    conf.read('ssh.conf', encoding='utf-8')
     try:
         conn = mysql.connect(
             host=conf.get('mysql', 'mysql_host'), port=conf.getint('mysql', 'mysql_port'),
