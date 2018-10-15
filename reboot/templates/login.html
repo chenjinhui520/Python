@@ -47,12 +47,12 @@
 <script>
 //alert("welcome jquery")
 $('#loginbtn').on('click',function(){
-     var str = $('#loginForm').serialize()
-     console.log(str)
+     var str = $('#loginForm').serialize();
+     console.log(str);
      $.post("/login",str,function(data){
-           console.log(data)
-          data = JSON.parse(data)
-          console.log(data)
+           console.log(data);
+          data = JSON.parse(data);
+          console.log(data);
           if (data['code']==0){
             swal({
                 title: "登录成功",
@@ -65,7 +65,7 @@ $('#loginbtn').on('click',function(){
           }else{
             swal("MY GOD",data['errmsg'],"error");
              }
-     })
+     });
      return false
 })
 </script>
